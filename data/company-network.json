@@ -1,0 +1,73 @@
+{
+  "primaryNodeId": "aapl",
+  "lineGap": 14,
+  "interactionIcon": "/assets/icons/plus-svgrepo-com.svg",
+  "nodes": [
+    {
+      "id": "aapl",
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "type": "company",
+      "description": "Apple designs consumer devices, software, and services supported by a global supplier and distribution network.",
+      "icon": "/assets/icons/company-svgrepo-com.svg",
+      "diameter": 220,
+      "mobileDiameter": 96,
+      "position": { "x": 0.5, "y": 0.5 },
+      "mobilePosition": { "x": 0.5, "y": 0 }
+    },
+    {
+      "id": "csco",
+      "ticker": "CSCO",
+      "name": "Cisco Systems, Inc.",
+      "type": "company",
+      "description": "Cisco provides networking and infrastructure products used throughout enterprise technology ecosystems.",
+      "icon": "/assets/icons/business-svgrepo-com.svg",
+      "diameter": 124,
+      "mobileDiameter": 54,
+      "position": { "x": 0.2, "y": 0.35 },
+      "mobilePosition": { "x": 0.24, "y": 0.42 }
+    },
+    {
+      "id": "glw",
+      "ticker": "GLW",
+      "name": "Corning Incorporated",
+      "type": "company",
+      "description": "Corning supplies specialty glass and materials used in displays, devices, and communications infrastructure.",
+      "icon": "/assets/icons/company-svgrepo-com.svg",
+      "diameter": 116,
+      "mobileDiameter": 54,
+      "position": { "x": 0.29, "y": 0.76 },
+      "mobilePosition": { "x": 0.76, "y": 0.42 }
+    },
+    {
+      "id": "txn",
+      "ticker": "TXN",
+      "name": "Texas Instruments Incorporated",
+      "type": "company",
+      "description": "Texas Instruments manufactures analog and embedded semiconductors used across consumer and industrial products.",
+      "icon": "/assets/icons/delivery-svgrepo-com.svg",
+      "diameter": 124,
+      "mobileDiameter": 54,
+      "position": { "x": 0.73, "y": 0.67 },
+      "mobilePosition": { "x": 0.34, "y": 0.78 }
+    },
+    {
+      "id": "avgo",
+      "ticker": "AVGO",
+      "name": "Broadcom Inc.",
+      "type": "company",
+      "description": "Broadcom supplies semiconductor and infrastructure software products across communications and enterprise markets.",
+      "icon": "/assets/icons/default-department-svgrepo-com.svg",
+      "diameter": 120,
+      "mobileDiameter": 54,
+      "position": { "x": 0.79, "y": 0.27 },
+      "mobilePosition": { "x": 0.75, "y": 0.84 }
+    }
+  ],
+  "connections": [
+    { "id": "aapl-csco", "source": "aapl", "target": "csco" },
+    { "id": "aapl-glw", "source": "aapl", "target": "glw" },
+    { "id": "aapl-txn", "source": "aapl", "target": "txn" },
+    { "id": "txn-avgo", "source": "txn", "target": "avgo" }
+  ]
+}
