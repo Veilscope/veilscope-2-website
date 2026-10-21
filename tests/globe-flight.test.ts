@@ -130,5 +130,4 @@ test("the relationship graph reveals near visual convergence and reverses cleanl
   assert.equal(isFlightRevealReady(1, threshold - 0.001), false);
   assert.ok(sampleFlight(createFlightLayout(dots, 1280, 800, 65), threshold).pathRemaining < 0.03);
   assert.equal(config.flight.postFlightViewports, 1.5);
-  assert.ok(config.flight.minimumHoldMs >= 1000);
 });

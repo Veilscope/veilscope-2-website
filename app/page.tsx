@@ -57,8 +57,8 @@ export default async function Home() {
     <main>
       <section id="next-section" className="site-section demo-intro-section">
         <div className="site-container split-intro">
-          <SectionHeading eyebrow="Research workspace" title="A closer look at how we research.">
-            <p>We’re building tools to explore financial patterns and investigate company relationships. This preview introduces the workspace behind our research.</p>
+          <SectionHeading title="How we perform our research.">
+            <p>We’re building tools to explore financial patterns and investigate company relationships.</p>
           </SectionHeading>
           <div className="status-note">
             <p className="eyebrow">In development</p>

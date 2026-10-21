@@ -114,60 +114,14 @@ export function Globe({ dots }: { dots: Dot[] }) {
     let primaryResumeStart = -Infinity;
     let sceneTop = 0;
     let scrollRange = 1;
-    let lastScrollY = window.scrollY;
-    let holdArmed = true;
-    let holdingScroll = false;
-    let holdTimer: number | undefined;
-    let previousRootOverflow = "";
-    let previousBodyTouchAction = "";
-    let previousBodyOverscroll = "";
     let layout: ReturnType<typeof createFlightLayout> | undefined;
     const start = performance.now();
-
-    function holdKeydown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        endScrollHold();
-        return;
-      }
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) event.preventDefault();
-    }
-
-    function endScrollHold() {
-      if (!holdingScroll) return;
-      holdingScroll = false;
-      if (holdTimer !== undefined) window.clearTimeout(holdTimer);
-      holdTimer = undefined;
-      document.documentElement.style.overflow = previousRootOverflow;
-      document.body.style.touchAction = previousBodyTouchAction;
-      document.body.style.overscrollBehavior = previousBodyOverscroll;
-      document.removeEventListener("keydown", holdKeydown);
-      delete stage!.dataset.scrollHold;
-    }
-
-    function startScrollHold(anchor: number) {
-      if (holdingScroll || reduced.matches || !holdArmed) return;
-      holdingScroll = true;
-      holdArmed = false;
-      previousRootOverflow = document.documentElement.style.overflow;
-      previousBodyTouchAction = document.body.style.touchAction;
-      previousBodyOverscroll = document.body.style.overscrollBehavior;
-      window.scrollTo({ top: anchor, behavior: "auto" });
-      lastScrollY = anchor;
-      document.documentElement.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
-      document.body.style.overscrollBehavior = "none";
-      document.addEventListener("keydown", holdKeydown);
-      stage!.dataset.scrollHold = "true";
-      holdTimer = window.setTimeout(endScrollHold, config.flight.minimumHoldMs);
-    }
 
     function continueExploring(event: MouseEvent) {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const nextSection = document.getElementById("next-section");
       if (!nextSection) return;
       event.preventDefault();
-      endScrollHold();
-      holdArmed = false;
       history.pushState(null, "", "#next-section");
       nextSection.scrollIntoView({ behavior: reduced.matches ? "instant" : "smooth", block: "start" });
     }
@@ -220,17 +174,7 @@ export function Globe({ dots }: { dots: Dot[] }) {
       if (!frame && !disposed && !document.hidden) frame = requestAnimationFrame(tick);
     }
     function onScroll() {
-      let scrollY = window.scrollY;
-      let rawProgress = (scrollY - sceneTop) / scrollRange;
-      const movingDown = scrollY > lastScrollY;
-      if (!holdingScroll && rawProgress < config.flight.completionZone.start) holdArmed = true;
-      if (hasLayout && movingDown && rawProgress >= config.flight.completionZone.end && holdArmed && !reduced.matches) {
-        const holdAnchor = sceneTop + config.flight.completionZone.end * scrollRange;
-        startScrollHold(holdAnchor);
-        scrollY = holdAnchor;
-        rawProgress = config.flight.completionZone.end;
-      }
-      lastScrollY = scrollY;
+      const rawProgress = (window.scrollY - sceneTop) / scrollRange;
       const next = mapScrollProgress(rawProgress);
       landing!.dataset.flightStarted = next > 0.002 ? "true" : "false";
       if (next !== targetProgress) {
@@ -280,11 +224,10 @@ export function Globe({ dots }: { dots: Dot[] }) {
       }
     }
     function visibilityChange() {
-      if (document.hidden) { endScrollHold(); cancelAnimationFrame(frame); frame = 0; }
+      if (document.hidden) { cancelAnimationFrame(frame); frame = 0; }
       else { onScroll(); lastFrame = 0; }
     }
     function reducedMotionChange() {
-      if (reduced.matches) endScrollHold();
       requestDraw();
     }
     function contextLost(event: Event) {
@@ -307,7 +250,6 @@ export function Globe({ dots }: { dots: Dot[] }) {
     resize();
     return () => {
       disposed = true;
-      endScrollHold();
       cancelAnimationFrame(frame);
       observer.disconnect();
       continuation?.removeEventListener("click", continueExploring);
@@ -320,7 +262,6 @@ export function Globe({ dots }: { dots: Dot[] }) {
       canvas.removeEventListener("webglcontextrestored", contextRestored);
       delete stage.dataset.ready;
       delete stage.dataset.networkVisible;
-      delete stage.dataset.scrollHold;
       delete landing.dataset.flightStarted;
       geometry.dispose(); quad.dispose(); material.dispose(); renderer?.dispose();
     };

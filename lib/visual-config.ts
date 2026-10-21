@@ -35,7 +35,6 @@ export const globeConfig = {
     finalHaloScale: 1.8,
     completionZone: { start: 0.48, end: 0.56 },
     revealProgress: 0.9,
-    minimumHoldMs: 1400,
     hoverFadeEnd: 0.08,
     smoothing: { responseSeconds: 0.12, settleSeconds: 0.34, inputBlendSeconds: 0.16, epsilon: 0.00008 },
     exitMargin: 24,
