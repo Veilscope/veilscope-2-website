@@ -1,11 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-content";
 
 const footerLinks = [
   { label: "Research", href: "/research" },
-  { label: "Our Approach", href: "/approach" },
-  { label: "Tools", href: "/tools" },
-  { label: "About", href: "/about" },
 ] as const;
 
 export function SiteFooter() {
@@ -19,7 +17,9 @@ export function SiteFooter() {
   return <footer className="site-footer">
     <div className="site-container footer-grid">
       <div className="footer-intro">
-        <Link className="footer-brand" href="/">Veilscope</Link>
+        <Link className="footer-brand" href="/" aria-label="Veilscope home">
+          <span className="brand-crop"><Image src="/assets/logos/Veilscope%20Logo%20Dark.svg" alt="VEILSCOPE" width={400} height={100} /></span>
+        </Link>
         <p>Research into U.S.-listed companies, supported by the tools we’re building.</p>
       </div>
       <nav className="footer-nav" aria-label="Footer navigation">

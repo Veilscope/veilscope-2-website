@@ -1,8 +1,5 @@
 export const siteNavigation = [
   { label: "Research", href: "/research" },
-  { label: "Our Approach", href: "/approach" },
-  { label: "Tools", href: "/tools" },
-  { label: "About", href: "/about" },
   { label: "Get research updates", href: "/updates", featured: true },
 ] as const;
 
